@@ -62,7 +62,7 @@ class ResnetPGDAttacker:
             # Gradient update
             adv_images = adv_images - alpha * torch.sign(grad)
             # Projection step
-            adv_images =  torch.clamp(adv_images, min=-eps, max=eps)
+            #adv_images =  torch.clamp(adv_images, min=-eps, max=eps)
             # Clip image values between 0 and 1
             adv_images = adv_images.detach()
 
