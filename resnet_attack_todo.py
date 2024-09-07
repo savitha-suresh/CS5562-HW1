@@ -50,7 +50,7 @@ class ResnetPGDAttacker:
         #alpha = eps/steps
 
         for _ in range(steps):
-            adv_images.requires_grad = True
+            #adv_images.requires_grad = True
             outputs = self.model(adv_images).softmax(1)
             # Calculate loss
             loss = self.loss_fn(outputs, labels)
