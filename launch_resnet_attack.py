@@ -72,7 +72,7 @@ def run(eps=8/225, alpha=2/255, steps=20, batch_size=100, batch_num=None, result
     attacker = ResnetPGDAttacker(model, dset_loader)
 
     if test:
-        print(f"===Testing on {BATCH_NUM if BATCH_NUM else "all"} batches of data===")
+        print(f"===Testing on {BATCH_NUM if BATCH_NUM else 'all'} batches of data===")
         attacker.compute_accuracy(BATCH_NUM)
         print(f"Accuracy on original images: {attacker.acc * 100}%")
         torch.save({
