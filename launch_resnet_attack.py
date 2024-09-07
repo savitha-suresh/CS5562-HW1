@@ -24,7 +24,7 @@ def preprocess_img(example):
     return example
 
 def run(eps=8/225, alpha=2/255, steps=20, batch_size=100, batch_num=None, results_dir="results", results="adv_images", seed=1234, test=False ):
-    RESULTS_DIR = .resultsdir
+    RESULTS_DIR = resultsdir
     RESULTS_PATH = os.path.join(RESULTS_DIR, results)
     if not os.path.isdir(RESULTS_DIR):
         os.makedirs(RESULTS_DIR)
