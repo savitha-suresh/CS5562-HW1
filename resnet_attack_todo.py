@@ -57,7 +57,7 @@ class ResnetPGDAttacker:
             # Compute gradient wrt images
             grad = torch.autograd.grad(
                loss, adv_images, retain_graph=False, create_graph=False
-            )[0]
+            )
             #adv_images = adv_images.detach()
             # Gradient update
             adv_images = adv_images - alpha * torch.sign(grad)
