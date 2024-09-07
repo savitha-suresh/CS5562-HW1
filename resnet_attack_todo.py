@@ -58,15 +58,11 @@ class ResnetPGDAttacker:
             grad = torch.autograd.grad(
                loss, adv_images, retain_graph=False, create_graph=False
             )[0]
-            #adv_images = adv_images.detach()
-            # Gradient update
-            perturbed_images = adv_images + alpha * torch.sign(grad)
-            perturbation = torch.clamp(perturbed_images - adv_images, min=-eps, max=eps)
-            adv_images = adv_images + perturbation
+            # Gradient update and projection
+            perturbation =  alpha * torch.sign(grad)
+            perturbation_projected = torch.clamp(perturbation, min=-eps, max=eps)
+            adv_images = adv_images + perturbation_projected
             
-            # Projection step
-            #adv_images =  torch.clamp(adv_images, min=-eps, max=eps)
-            # Clip image values between 0 and 1
             adv_images = adv_images.detach()
 
         return adv_images
