@@ -61,7 +61,7 @@ class ResnetPGDAttacker:
             #adv_images = adv_images.detach()
             # Gradient update
             perturbed_images = images + alpha * torch.sign(grad)
-            perturbation = torch.clamp(perturbed_images - adv_images, min=-epsilon, max=epsilon)
+            perturbation = torch.clamp(perturbed_images - adv_images, min=-eps, max=eps)
             adv_images = adv_images + perturbation
             
             # Projection step
