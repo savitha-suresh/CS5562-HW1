@@ -47,7 +47,7 @@ class ResnetPGDAttacker:
 
         # Starting at a uniformly random point within eps ball
         adv_images = images.clone()
-        alpha = eps/steps
+        #alpha = eps/steps
 
         for _ in range(steps):
             adv_images.requires_grad = True

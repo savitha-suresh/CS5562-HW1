@@ -70,6 +70,24 @@ dset_loader = DataLoader(ds, batch_size=BATCH_SIZE)
 dset_classes = weights.meta["categories"]
 attacker = ResnetPGDAttacker(model, dset_loader)
 
+
+def run(batch_num=BATCH_NUM, eps=EPS, steps=STEPS, alpha=ALPHA, batch_size=BATCH_SIZE, results_path=RESULTS_PATH):
+    print(f"===Launching PGD attack on {batch_num if batch_num else 'all'} batches of data===")
+    print(f"Attack configs: eps = {eps}, alpha = {alpha}, steps = {steps}, batch size = {batch_size}")
+
+    attacker.pgd_batch_attack(eps, alpha, steps, batch_num)
+    print(f"Accuracy on original images: {attacker.acc * 100}%")
+    print(f"Accuracy on adversarial images: {attacker.adv_acc * 100}%")
+
+    torch.save({
+        'acc': attacker.acc,
+        'adv_acc': attacker.adv_acc,
+        'adv_images': attacker.adv_images,
+        'labels': attacker.labels,
+        'eps': EPS,
+    }, results_path)
+    return (eps, attacker.adv_acc)
+
 if args.test:
     print(f"===Testing on {BATCH_NUM if BATCH_NUM else 'all'} batches of data===")
     attacker.compute_accuracy(BATCH_NUM)
@@ -79,16 +97,5 @@ if args.test:
     }, RESULTS_PATH)
 
 else:
-    print(f"===Launching PGD attack on {BATCH_NUM if BATCH_NUM else 'all'} batches of data===")
-    print(f"Attack configs: eps = {EPS}, alpha = {ALPHA}, steps = {STEPS}, batch size = {BATCH_SIZE}")
-
-    attacker.pgd_batch_attack(EPS, ALPHA, STEPS, BATCH_NUM)
-    print(f"Accuracy on original images: {attacker.acc * 100}%")
-    print(f"Accuracy on adversarial images: {attacker.adv_acc * 100}%")
-
-    torch.save({
-        'acc': attacker.acc,
-        'adv_acc': attacker.adv_acc,
-        'adv_images': attacker.adv_images,
-        'labels': attacker.labels,
-    }, RESULTS_PATH)
+    run()
+    
