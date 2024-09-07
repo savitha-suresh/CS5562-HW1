@@ -50,7 +50,7 @@ class ResnetPGDAttacker:
         #alpha = eps/steps
 
         for _ in range(steps):
-            #adv_images.requires_grad = True
+            adv_images.requires_grad = True
             outputs = self.model(adv_images).softmax(1)
             # Calculate loss
             loss = self.loss_fn(outputs, labels)
@@ -64,7 +64,7 @@ class ResnetPGDAttacker:
             # Projection step
             #adv_images =  torch.clamp(adv_images, min=-eps, max=eps)
             # Clip image values between 0 and 1
-            #adv_images = adv_images.detach()
+            adv_images = adv_images.detach()
 
         return adv_images
 
