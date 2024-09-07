@@ -43,11 +43,11 @@ class ResnetPGDAttacker:
         if steps is None:
             steps = self.steps
         images = image.clone().detach().to(self.device)
-        adv_images = images.clone()
         labels = label.clone().detach().to(self.device)
 
         # Starting at a uniformly random point within eps ball
-        pass  # TODO
+        adv_images = images.clone()
+        alpha = eps/steps
 
         for _ in range(steps):
             adv_images.requires_grad = True
@@ -60,9 +60,9 @@ class ResnetPGDAttacker:
             )[0]
             adv_images = adv_images.detach()
             # Gradient update
-            pass  # TODO
+            adv_images = adv_images - alpha * torch.sign(grad)
             # Projection step
-            pass  # TODO
+            adv_images =  torch.clamp(adv_images, min=-eps, max=eps)
             # Clip image values between 0 and 1
             adv_images = adv_images.detach()
 
