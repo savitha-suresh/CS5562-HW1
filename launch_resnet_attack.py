@@ -80,7 +80,7 @@ def run(eps=8/225, alpha=2/255, steps=20, batch_size=100, batch_num=None, result
         }, RESULTS_PATH)
 
     else:
-        print(f"===Launching PGD attack on {BATCH_NUM if BATCH_NUM else "all"} batches of data===")
+        print(f"===Launching PGD attack on {BATCH_NUM if BATCH_NUM else 'all'} batches of data===")
         print(f"Attack configs: eps = {EPS}, alpha = {ALPHA}, steps = {STEPS}, batch size = {BATCH_SIZE}")
 
         attacker.pgd_batch_attack(EPS, ALPHA, STEPS, BATCH_NUM)
