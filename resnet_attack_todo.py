@@ -44,6 +44,11 @@ class ResnetPGDAttacker:
             steps = self.steps
         images = image.clone().detach().to(self.device)
         labels = label.clone().detach().to(self.device)
+        # MIDTERM - imagenet 1k has 1000 classes. so for this midterm i am choosing the next label as the target label
+        # MIDTERM - example if correct label is 1, i am making it go to 2.
+        # MIDTERM - the mod 1000 is to prevent over flow
+        labels = (labels+1)%1000
+        
 
         # Starting at a uniformly random point within eps ball
         adv_images = images.clone()
@@ -59,7 +64,8 @@ class ResnetPGDAttacker:
                loss, adv_images, retain_graph=False, create_graph=False
             )[0]
             # Gradient update and projection
-            perturbation =  alpha * torch.sign(grad)
+            # MIDTERM -> We are reducing the loss to the target label so i have added -ve 
+            perturbation =  -alpha * torch.sign(grad)
             perturbation_projected = torch.clamp(perturbation, min=-eps, max=eps)
             adv_images = adv_images + perturbation_projected
             
